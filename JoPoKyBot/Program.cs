@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace JoPoKyBot
 {
@@ -11,10 +9,17 @@ namespace JoPoKyBot
     {
         public static void Main(string[] args)
         {
+            Console.Title = "JoPoKyBot";
+
+            var config = new ConfigurationBuilder()
+                .AddCommandLine(args)
+                .Build();
+
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
+                .UseConfiguration(config)
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
                 .Build();
